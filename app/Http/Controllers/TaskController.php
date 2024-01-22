@@ -13,6 +13,14 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class);
+    }
+
+
+
     public function index()
     {
         return TaskResource::collection(auth()->user()->tasks()->get());
@@ -32,7 +40,7 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request)
     {
         $task = $request->user()->tasks()->create($request->validated());
-        
+
         return TaskResource::make($task);
     }
 
@@ -41,6 +49,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $this->authorize('view', $task);
         return TaskResource::make($task);
     }
 
