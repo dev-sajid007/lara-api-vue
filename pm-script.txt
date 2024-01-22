@@ -1,0 +1,9 @@
+pm.sendRequest({
+    url:"http://localhost:90/sanctum/csrf-cookie",
+    method:"GET"
+},function(err,res,{cookies}){
+
+    if(!err){
+        pm.globals.set('csrf-token',cookies.get('XSRF-TOKEN'))
+    }
+});
